@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriods="5 seconds">
+	<!-- Context Listener -->
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>false</resetJUL>
+	</contextListener>
+
+	<if condition='isDefined("activeEnv")'>
+		<then>
+			<if condition='"${activeEnv}".equals("local")'>
+				<then>
+					<appender name="apndConsole" class="ch.qos.logback.core.ConsoleAppender">
+						<encoder>
+							<pattern>%d{[HH:mm:ss.SSS]}[%.-1level][%class] - %msg [%c](%file:%line\) %n</pattern>
+						</encoder>
+					</appender>
+					<appender name="apndFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+						<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+							<fileNamePattern>/logs/local/log-%d{yyyy-MM-dd}.log</fileNamePattern>
+						</rollingPolicy>
+						<encoder>
+							<pattern>%d{[HH:mm:ss.SSS]}[%.-1level][%class] - %msg [%c](%file:%line\) %n</pattern>
+						</encoder>
+					</appender>
+				</then>
+			</if>
+			<if condition='"${activeEnv}".equals("dev")'>
+				<then>
+					<appender name="apndConsole" class="ch.qos.logback.core.helpers.NOPAppender" />
+					<appender name="apndFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+						<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+							<fileNamePattern>/logs/dev/log-%d{yyyy-MM-dd}.log</fileNamePattern>
+						</rollingPolicy>
+						<encoder>
+							<pattern>%d{[HH:mm:ss.SSS]}[%.-1level][%class] - %msg [%c](%file:%line\) %n</pattern>
+						</encoder>
+					</appender>
+				</then>
+			</if>
+		</then>
+	</if>
+
+	<!-- loggers -->
+	<root level="INFO">
+		<appender-ref ref="apndConsole" />
+		<appender-ref ref="apndFile" />
+	</root>
+</configuration>

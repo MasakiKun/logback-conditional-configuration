@@ -1,0 +1,23 @@
+plugins {
+	id("org.springframework.boot") version("2.6.2")
+	id("io.spring.dependency-management") version("1.0.11.RELEASE")
+	id("java")
+	id("war")
+}
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-web:2.6.2")
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:2.6.2")
+//	implementation("org.slf4j:slf4j-api:1.7.32")
+//	implementation("ch.qos.logback:logback-classic:1.2.10")
+	implementation("org.codehaus.janino:janino:3.1.6")
+}
